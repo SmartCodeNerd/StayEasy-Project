@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StayEasy</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: aliceblue;
+        }
+        input {
+            border: 1px solid green;
+            border-radius: 10px;
+        }
+        h2 {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h2>Add New Listing</h2>
+    <form method="POST" action="/listings">
+        <input name="title" placeholder="Enter title" type="text"> <br><br>
+        <textarea name="description" placeholder="Enter Description" rows="7" cols="25"></textarea> <br><br>
+        <input name="image" placeholder="Enter Image URL" type="text"> <br><br>
+        <input name="price" placeholder="Enter Price" type="number"> <br><br>
+        <input name="location" placeholder="Enter location" type="text"> <br><br>
+        <input name="country" placeholder="Enter country" type="text"> <br><br>
+        <button>Submit</button>
+    </form>
+</body>
+</html>
