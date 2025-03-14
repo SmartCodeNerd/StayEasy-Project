@@ -1,24 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StayEasy</title>
+<% layout("/layouts/boilerplate.ejs") -%>
 
-</head>
 <body>
-    <h2>All Listings</h2>
+    <br>
+    <div class="content_index">
+        <h2>All Listings</h2>
+        
+        <div class="row row-col-lg-4 row-cols-md-2 row-cols-sm-1">
+            <% for(list of allListings) { %> 
+                <div class="card col" style="width: 20rem;">
+                   
+                    <a href="/listings/<%=list._id%>"><img src=<%=list.image%> class="card-img-top" style="height: 20rem"></a>
+                    <div class="card-body">
+                    <p class="card-text"> <b><%=list.title%></b> </p>
+                    <p class="card-text"> &#8377 <%=list.price.toLocaleString("en-IN")%>/night </p>
+                    </div>
+                </div>
+            <% } %>
+        </div>
 
-    <form method="GET" action="/listings/new">
-        <button>Add New</button>
-    </form>
-
-    <ul>
-        <% for(list of allListings) { %> 
-                <li>
-                    <a href="/listings/<%=list._id%>"> <%= list.title %> </a>
-                </li>
-        <% } %>
-    </ul>
+    </div>
 </body>
-</html>

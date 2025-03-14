@@ -39,5 +39,40 @@
 //L8
 //Created a delete route to delete that listing from the DB
 
+//Phase 1(Part B) [Styling Part]
+
+//L-1
+//Installed ejs-mate used to structure and organise ejs templates
+//Created a Public directory to serve static files
+
+//L-2
+//Created Navbar
+//Included Bootstrap
+//Modified the Navbar
+//Attached request routes with the anchor tags
+
+//L-3
+//Added Footer and some basic CSS styling
+
+//L-4
+//Add Styling to the index.ejs page.
+
+//L-5
+//Added Styling to the Add New Listing Page
+
+//Phase 1(Part C) [Form Validation]
+//L-1
+//Added Form Validation Styling using Bootstrap Classes using the needs-validation class.
+
+//L-2
+//Added Success and Failure Text to the input fields
+//Using Classes valid-feedback and invalid-feedback inside each individual divs.
+
+//L-3
+
+
+
+
+
 
 

@@ -1,14 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StayEasy</title>
+<% layout("/layouts/boilerplate.ejs") -%>
     <style>
-        body {
-            text-align: center;
-            background-color: aliceblue;
-        }
+        /* body {
+            text-align: left;
+        } */
         input {
             border: 1px solid green;
             border-radius: 10px;
@@ -18,16 +12,57 @@
         }
     </style>
 </head>
-<body>
-    <h2>Add New Listing</h2>
-    <form method="POST" action="/listings">
-        <input name="title" placeholder="Enter title" type="text"> <br><br>
-        <textarea name="description" placeholder="Enter Description" rows="7" cols="25"></textarea> <br><br>
-        <input name="image" placeholder="Enter Image URL" type="text"> <br><br>
-        <input name="price" placeholder="Enter Price" type="number"> <br><br>
-        <input name="location" placeholder="Enter location" type="text"> <br><br>
-        <input name="country" placeholder="Enter country" type="text"> <br><br>
-        <button>Submit</button>
+<body >
+    <br>
+    <div class="row offset-1">
+    <div class="content_index">
+        <h2>Add New Listing</h2>
+        <div class="col-md-8 ">
+        <form method="POST" action="/listings" novalidate class="needs-validation">
+        <div>
+            <label for="title" class="form-label"><b>Title</b></label>
+            <input name="title" placeholder="Enter title" type="text" class="form-control" required>
+            <div class="valid-feedback">Looks Good!</div>
+            <div class="invalid-feedback">Enter Valid Title</div>
+        </div>
+        <br>
+        <div>
+            <label for="description" class="form-label"><b>Description</b></label>
+            <textarea name="description" placeholder="Enter Description" rows="2" cols="25" class="form-control" required></textarea>
+            <div class="valid-feedback">Looks Good!</div>
+            <div class="invalid-feedback">Enter a short description</div>
+        </div>
+        <br>
+        <div>
+            <label for="image" class="form-label"><b>Image URL</b></label>
+            <input name="image" type="text" placeholder="Enter Image URL" class="form-control">
+        </div>
+        <br>
+        <div>
+            <label for="price" class="form-label"><b>Price</b></label>
+            <input name="price" placeholder="Enter Price" class="form-control" required> 
+            <div class="valid-feedback">Looks Good!</div>
+            <div class="invalid-feedback">Enter Valid Price</div>
+        </div>
+        <br>
+        <div>
+            <label for="location" class="form-label"><b>Location</b></label>
+            <input name="location" type="text"  placeholder="Enter Location" class="form-control" required>
+            <div class="valid-feedback">Looks Good!</div>
+            <div class="invalid-feedback">Enter Valid Location</div>
+        </div>
+        <br>
+        <div>
+            <label for="country" class="form-label"><b>Country</b></label>
+            <input name="country" type="text"  placeholder="Enter Country" class="form-control" required>
+            <div class="valid-feedback">Looks Good!</div>
+            <div class="invalid-feedback">Enter Valid Country</div>
+        </div>
+        <br>
+        <button class="btn btn-success">Submit</button>
     </form>
+    </div>
+    </div>
+    </div>
 </body>
 </html>

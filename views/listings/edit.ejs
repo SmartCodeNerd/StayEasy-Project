@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StayEasy</title>
+<% layout("/layouts/boilerplate.ejs") -%>
+
     <style>
-        body {
-            text-align: center;
-            background-color: aliceblue;
-        }
         input {
             border: 1px solid green;
             border-radius: 10px;
@@ -19,15 +11,57 @@
     </style>
 </head>
 <body>
-    <h2>Edit Listing</h2>
-    <form method="POST" action="/listings/<%=listing._id%>?_method=PATCH">
-        <input name="title" type="text" value="<%=listing.title%>"" > <br><br>
-        <textarea name="description" rows="7" cols="25"> <%=listing.description%> </textarea> <br><br>
-        <input name="image" type="text" value=<%=listing.image%> > <br><br>
-        <input name="price" type="number" value=<%=listing.price%> > <br><br>
-        <input name="location" type="text" value="<%=listing.location%>" > <br><br>
-        <input name="country"f type="text" value="<%=listing.country%>"" > <br><br>
-        <button>Submit</button>
+    <br>
+    <div class="row offset-1">
+    <div class="content_index">
+        <h2>Edit Listing</h2>
+        <div class="col-md-8 ">
+        <form method="POST" action="/listings/<%=listing._id%>?_method=PATCH" novalidate class="needs-validation">
+        <div>
+            <label for="title" class="form-label"><b>Title</b></label>
+            <input name="title" placeholder="Enter title" type="text" class="form-control" value="<%=listing.title%>" required>
+            <div class="valid-feedback">Looks Good!</div>
+            <div class="invalid-feedback">Enter Valid Title</div>
+        </div>
+        <br>
+        <div>
+            <label for="description" class="form-label"><b>Description</b></label>
+            <textarea name="description" placeholder="Enter Description" rows="2" cols="25" class="form-control" required><%=listing.description%></textarea>
+            <div class="valid-feedback">Looks Good!</div>
+            <div class="invalid-feedback">Enter a short description</div>
+        </div>
+        <br>
+        <div>
+            <label for="image" class="form-label"><b>Image URL</b></label>
+            <input name="image" type="text" placeholder="Enter Image URL" class="form-control" value="<%=listing.image%>">
+        </div>
+        <br>
+        <div>
+            <label for="price" class="form-label"><b>Price</b></label>
+            <input name="price" type="number"  placeholder="Enter Price" class="form-control" value="<%=listing.price%>" required> 
+            <div class="valid-feedback">Looks Good!</div>
+            <div class="invalid-feedback">Enter Valid Price</div>
+        </div>
+        <br>
+        <div>
+            <label for="location" class="form-label"><b>Location</b></label>
+            <input name="location" type="text"  placeholder="Enter Location" class="form-control" value="<%=listing.location%>" required>
+            <div class="valid-feedback">Looks Good!</div>
+            <div class="invalid-feedback">Enter Valid Location</div>
+        </div>
+        <br>
+        <div>
+            <label for="country" class="form-label"><b>Country</b></label>
+            <input name="country" type="text"  placeholder="Enter Country" class="form-control" value="<%=listing.country%>" 
+            required>
+            <div class="valid-feedback">Looks Good!</div>
+            <div class="invalid-feedback">Enter Valid Country</div>
+        </div>
+        <br>
+        <button class="btn btn-dark edit-btn">Submit</button>
+         <!-- <button>Submit</button> -->
     </form>
+    </div>
+    </div>
+    </div>
 </body>
-</html>
