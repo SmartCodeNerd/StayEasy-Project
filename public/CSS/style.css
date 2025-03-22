@@ -74,7 +74,6 @@ footer {
     border-radius:1rem !important;
     width:100% !important;
     object-fit: cover !important;
-    
 }
 
 .card :hover {
@@ -98,7 +97,7 @@ footer {
 /* Show Page */
 .show-img {
     height:60vh;
-    object-fit: cover !important;
+    object-fit: cover !important; 
 }
 
  .btns {
@@ -110,6 +109,11 @@ footer {
     
 }
 
+.review-card {
+    border:1px solid black !important;
+}
 
 
-
+.review-btns {   
+    text-align: end;
+}
