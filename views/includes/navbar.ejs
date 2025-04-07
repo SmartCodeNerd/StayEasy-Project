@@ -10,6 +10,26 @@
           <a class="nav-link" href="/listings">All Listings</a>
           <a class="nav-link" href="/listings/new">Add New Listing</a>
         </div>
+
+        <div class="dropdown ms-auto pe-5 d-flex">
+          <% if (currUser) { %>
+            <div class="name mt-3 pe-3">
+              <p> <%= currUser.username%> </p>
+            </div>
+          <% } %>
+          <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-regular fa-user"></i>
+          </button>
+          <ul class="dropdown-menu">
+            <% if (!currUser) { %>
+              <li><a class="dropdown-item" href="/signup">Sign Up</a></li>
+              <li><a class="dropdown-item" href="/login">Login</a></li>
+            <% } else { %>
+              <li><a class="dropdown-item" href="/logout">Logout</a></li>
+            <% } %>
+          </ul>
+        </div>
+        
       </div>
     </div>
 </nav>
