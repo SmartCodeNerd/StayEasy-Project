@@ -1,0 +1,45 @@
+<% layout("/layouts/boilerplate.ejs") -%>
+<style>
+    h2 {
+            text-decoration: underline;
+        }
+</style>
+<body>
+    <div class="row offset-1">
+        <div class="content_index mt-4">
+            <h2>Add New User</h2>
+            <div class="col-md-8">
+            <form method="POST" action="/signup" novalidate class="needs-validation">
+            <div>
+                <label for="username" class="form-label"><b>Username</b></label>
+                <input name="username" placeholder="Enter Username" type="text" class="form-control" required>
+                <div class="valid-feedback">Looks Good!</div>
+                <div class="invalid-feedback">Enter Valid Username</div>
+            </div>
+
+            <br>
+
+            <div>
+                <label for="email" class="form-label"><b>Email</b></label>
+                <input name="email" placeholder="Enter User Email" type="email" class="form-control" required>
+                <div class="valid-feedback">Looks Good!</div>
+                <div class="invalid-feedback">Enter Valid Email</div>
+            </div>
+
+            <br>
+
+            <div>
+                <label for="password" class="form-label"><b>Password</b></label>
+                <input name="password" placeholder="Enter User Password" type="password" class="form-control" required>
+                <div class="valid-feedback">Looks Good!</div>
+                <div class="invalid-feedback">Enter Valid Password</div>
+            </div>
+
+            <br>
+
+            <button class="btn btn-success">Submit</button>
+        </form>
+        </div>
+        </div>
+        </div>    
+</body>

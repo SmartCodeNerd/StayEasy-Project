@@ -71,6 +71,21 @@
 //L-3
 
 
+//Phase 2(Part E)
+
+//L-3
+//Added a dropdown menu for signup,login, and logout for the user
+//Also using res.locals and req.user, added a functionality that if the user is logged in then show logout option else show sign in and login options.
+
+//L-4
+//To establish a flow that after signup the user should automatically be logged in, we used a MW req.login() that automatically //assigns req.user with the curr user in the session after signup.
+
+//L-5
+//Created the flow in which if the user is not logged in and tries to access to add new listing or edit listing then after login he will be redirected to the same page only s.t. to make the user journey smooth.
+
+//L-6
+
+ 
 
 
 

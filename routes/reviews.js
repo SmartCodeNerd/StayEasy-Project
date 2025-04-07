@@ -1,27 +1,12 @@
 const express = require("express");
 const router = express.Router({mergeParams:true});
 const wrapAsync = require("../utils/wrapAsync.js");
-const ExpressError = require("../utils/ExpressError.js");
-const validationSchema = require("../schema.js"); //Joi
 const Review = require("../models/review.js");
 const Listing = require("../models/listing.js");
-
-//MiddleWare for Server Side Validation for Reviews.(As a function)
-const validateReviews = (req,res,next) => {
-    let result = validationSchema.reviewSchema.validate(req.body);
-    if(result.error) {
-        console.log(result);
-        throw new ExpressError(400 , result.error);
-    }
-    else
-    {
-        next();
-    }
-};
+const {isLoggedIn,validateReviews,isAuthor} = require("../middlewares.js");
 
 //Post Review Route
-router.post("/" , validateReviews , wrapAsync(async(req,res,next) => {
-
+router.post("/" , isLoggedIn , validateReviews , wrapAsync(async(req,res,next) => {
     const { id } = req.params;
     const cleanId = id.trim(); // Removes leading/trailing spaces
     const listing = await Listing.findById(cleanId);
@@ -30,23 +15,27 @@ router.post("/" , validateReviews , wrapAsync(async(req,res,next) => {
     let newReview = new Review(req.body);
     listing.reviews.push(newReview);
 
+    newReview.author = req.user._id;
+
     await newReview.save();
     await listing.save();
 
     console.log("New Review Saved");
     // res.send("New Review Saved");
     //res.send("Success");
+    req.flash("success","New Review Added Successfully");
     res.redirect(`/listings/${cleanId}`);
 }));
 
 //Delete Review Route
-router.delete("/:rid" , wrapAsync(async(req,res,next) => {
+router.delete("/:rid" , isLoggedIn , isAuthor , wrapAsync(async(req,res,next) => {
     //res.send("Deleted Successfully");
     let {id,rid} = req.params;
     const cleanId = id.trim();
     const cleanrId = rid.trim();
     await Listing.findByIdAndUpdate(cleanId , {$pull : {reviews : cleanrId}});
     await Review.findByIdAndDelete(cleanrId);
+    req.flash("success","Review Deleted Successfully");
     res.redirect(`/listings/${cleanId}`);
 }));
 

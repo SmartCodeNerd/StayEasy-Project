@@ -2,21 +2,7 @@ const express = require("express");
 const router = express.Router({});
 const Listing = require("../models/listing.js"); //Requiring Listing Model
 const wrapAsync = require("../utils/wrapAsync.js");
-const ExpressError = require("../utils/ExpressError.js");
-const validationSchema = require("../schema.js"); //Joi
-
-//MiddleWare for Server Side Validation for Listings.(As a function)
-const validateListing = (req,res,next) => {
-    let result = validationSchema.listingSchema.validate(req.body);
-    if(result.error) {
-        //let errMsg = result.error.details.map((el) => el.message).join(",");
-        //throw new ExpressError(400, errMsg);
-        throw new ExpressError(400, result.error);
-    }
-    else {
-        next();
-    }
-};
+const {isLoggedIn,isOwner,validateListing} = require("../middlewares.js");
 
 //Index Route
 router.get("/" , wrapAsync(async (req,res,next) => {
@@ -25,13 +11,12 @@ router.get("/" , wrapAsync(async (req,res,next) => {
 }));
 
 //New Route
-router.get("/new" , (req,res) => {
-    //res.send("Success");
+router.get("/new" , isLoggedIn , (req,res) => {
     res.render("listings/new.ejs");
 });
 
 //Create Route
-router.post("/" , validateListing, wrapAsync(async (req,res,next) => {
+router.post("/" , isLoggedIn , validateListing, wrapAsync(async (req,res,next) => {
     let {title,description,image,price,location,country} = req.body;
     const newData = new Listing ({
         title,
@@ -41,35 +26,56 @@ router.post("/" , validateListing, wrapAsync(async (req,res,next) => {
         location,
         country
     });
-
+    newData.owner = req.user._id;
     await newData.save();
+    req.flash("success","New Listing Added Successfully");
     res.redirect("/listings");
-    res.send(req.body);
-    })
+    }) 
 );
 
 //Show Route
 router.get("/:id" , wrapAsync(async (req,res,next) => {
     let {id} = req.params;
     let cleanId = id.trim();
-    const listing = await Listing.findById(cleanId).populate("reviews");
-    //console.log({listing});
+
+    const listing = await Listing.findById(cleanId)
+    .populate({
+        path:"reviews",
+        populate:{
+            path:"author"
+        },
+        })
+    .populate({
+        path:"owner"
+    });
+
+    console.log({listing});
+    if(!listing) {
+        req.flash("error","Invalid Listing");
+        res.redirect("/listings");
+    }
+    console.log(listing);
     res.render("listings/show.ejs",{listing});
-    //res.send("Success");
 }));
 
 //Edit Route
-router.get("/:id/edit" , wrapAsync(async (req,res,next) => {
+router.get("/:id/edit" , isOwner , wrapAsync(async (req,res,next) => {
     let {id} = req.params;
-    const listing = await Listing.findOne({_id:id});
-    res.render("listings/edit.ejs",{listing});
+    let cleanId = id.trim();
+    const listing = await Listing.findOne(cleanId);
+    if(!listing) {
+        req.flash("error","Invalid Listing");
+        res.redirect("/listings");
+    }
+    res.render("listings/edit.ejs",{listing}); 
 }));
 
 //Update Route
-router.patch("/:id" , validateListing , wrapAsync(async (req,res,next) => {
+router.patch("/:id" , isOwner , validateListing , wrapAsync(async (req,res,next) => {
     let {title,description,image,price,location,country} = req.body;
     let {id} = req.params;
-    await Listing.findByIdAndUpdate({_id:id} , {
+    let cleanId = id.trim();
+    await Listing.findByIdAndUpdate(cleanId , {
         title:title,
         description:description,
         image:image,
@@ -77,14 +83,16 @@ router.patch("/:id" , validateListing , wrapAsync(async (req,res,next) => {
         location:location,
         country:country
     },{runValidators:true,new:true});
-    res.redirect("/listings");
+    req.flash("success","Listing Updated Successfully");
+    res.redirect(`/listings/${cleanId}`);
 }));
 
 //Delete Route
-router.delete("/:id" , wrapAsync(async (req,res,next) => {
+router.delete("/:id" , isLoggedIn , isOwner , wrapAsync(async (req,res,next) => {
     let {id} = req.params;
     const cleanId = id.trim();
     await Listing.findByIdAndDelete(cleanId);
+    req.flash("success","Listing Deleted Successfully");
     res.redirect("/listings");
 }));
 

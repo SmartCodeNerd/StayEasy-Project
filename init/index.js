@@ -16,6 +16,11 @@ async function main() {
     await mongoose.connect("mongodb://127.0.0.1:27017/stayeasy");
 }
 
+for(dt of initData.data)
+{
+    dt.owner = "67f229faaa5502ee2599f1dc";
+}
+
 const initDB = async () => {
     //Clearing the entire DB
     await Listing.deleteMany({});
