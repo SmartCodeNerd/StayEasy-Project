@@ -25,7 +25,7 @@
                 <div class="card-body">
                     
                 </div>
-                <img src=<%=listing.image%> class="card-img-top show-img">
+                <img src=<%=listing.image.url%> class="card-img-top show-img">
                 <div class="card-body">
                     <div>
                         <i>Hosted by <%=listing.owner.username%></i>
@@ -61,12 +61,28 @@
                     <h4>Leave Your Thoughts</h4>
 
                         <form method="POST" action="/listings/ <%= listing._id %> /reviews" novalidate class="needs-validation">
-                            <div class="mt-2 mb-3">
+                            <div class="mt-4 mb-1">
                                 <label for="rating" class="form-label">Rating</label>
-                                <input type="range" name="rating" min="1" max="5" class="form-control form-range">
+                                <!-- <input type="range" name="rating" min="1" max="5" class="form-control form-range"> -->
+                                <fieldset class="starability-slot">
+                                    <input type="radio" id="no-rate" class="input-no-rate" name="rating" value="0" checked aria-label="No rating." />
+                                    <input type="radio" id="first-rate1" name="rating" value="1" />
+                                    <label for="first-rate1" title="Terrible">1 star</label>
+                                    <input type="radio" id="first-rate2" name="rating" value="2" />
+                                    <label for="first-rate2" title="Not good">2 stars</label>
+                                    <input type="radio" id="first-rate3" name="rating" value="3" />
+                                    <label for="first-rate3" title="Average">3 stars</label>
+                                    <input type="radio" id="first-rate4" name="rating" value="4" />
+                                    <label for="first-rate4" title="Very good">4 stars</label>
+                                    <input type="radio" id="first-rate5" name="rating" value="5" />
+                                    <label for="first-rate5" title="Amazing">5 stars</label>
+                                  </fieldset>
                             </div>
+
+                            
+
                                 
-                            <div class="mt-2 mb-3">
+                            <div class="mt-1 mb-3">
                                 <label for="comment" class="form-label">Comments</label>
                                 <textarea placeholder="Add your comments.." rows="10" cols="50" name="comment" class="form-control" required></textarea>
                                 <div class="valid-feedback">Looks Good!</div>
@@ -90,11 +106,17 @@
                     <% for(review of listing.reviews) { %>
                         <div class="card col-5 ms-3 review-card">
                             <div class="card-body mt-2 mb-2">
-                                <h5 class="card-title"> <%=review.author.username%> </h5>
-                                <p class="card-text"> <%=review.comment%> </p>
-                                <p class="card-text"> <%=review.rating%> Stars </p>
+                                <div class="revStars d-flex">
+                                    <h5 class="card-title mt-2"> @<%=review.author.username%> </h5>
+                                    <div class="stars ms-auto mt-1">
+                                        <p class="starability-result" data-rating=<%=review.rating%>></p>
+                                    </div>
+                                    <p><%=review.title%></p>
+                                </div>
 
-                                <% if (review.author._id.equals(currUser._id)) { %>
+                                <p class="card-text"> <%=review.comment%> </p>
+
+                                <% if (currUser && review.author._id.equals(currUser._id)) { %>
                                     <form method="POST" action="/listings/<%=listing._id%>/reviews/<%=review._id%>?_method=DELETE"
                                         class="review-btns">
                                         <button class="btn btn-danger"> <i class="fa-regular fa-trash-can"></i> </button>

@@ -10,7 +10,7 @@
             <% for(list of allListings) { %> 
                 <div class="card col" style="width: 20rem;">
                    
-                    <a href="/listings/<%=list._id%>"><img src=<%=list.image%> class="card-img-top" style="height: 20rem"></a>
+                    <a href="/listings/<%=list._id%>"><img src=<%=list.image.url%> class="card-img-top" style="height: 20rem"></a>
                     <div class="card-body">
                     <p class="card-text"> <b><%=list.title%></b> </p>
                     <p class="card-text"> &#8377 <%=list.price.toLocaleString("en-IN")%>/night </p>
