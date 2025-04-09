@@ -85,6 +85,15 @@
 
 //L-6
 
+//Phase 3(Part A)
+//L-1,2,3
+//Implemented MVC(Models,Views,Controllers) Framework to make the code more modular and readable.
+//Implemented for listings, reviews and user routes to make the route files more compact.
+
+//L-4
+//Learned about Router.route to make the code compact.f
+
+
  
 
 
