@@ -1,11 +1,15 @@
 const Listing = require("../models/listing.js"); //Requiring Listing Model
+const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
+const mapToken = process.env.MAP_ACCESS_TOKEN;
+const geocodingClient = mbxGeocoding({accessToken : mapToken});
+
 
 //Index Route
-module.exports.index = async (req,res,next) => {
+module.exports.index = async(req,res,next) => {
     let allListings = await Listing.find({});
+    console.log(req.user);
     res.render("listings/index.ejs",{allListings});
-};
-
+}
 
 //New Route
 module.exports.new = (req,res) => {
@@ -14,6 +18,12 @@ module.exports.new = (req,res) => {
 
 //Create Route
 module.exports.create = async (req,res,next) => {
+    const address = `${req.body.location},${req.body.country}`;
+    let response = await geocodingClient.forwardGeocode({
+        query:address,
+        limit:1,
+    })
+    .send();
     const url = req.file.path;
     const filename = req.file.filename;
     //console.log(url + "  " + filename);
@@ -24,11 +34,13 @@ module.exports.create = async (req,res,next) => {
         image,
         price,
         location,
-        country
+        country,
     });
-    newData.owner = req.user._id;
-    newData.image = {url,filename};
-    await newData.save();
+    newData.owner = req.user._id; //Storing the user id as owner's id
+    newData.image = {url,filename};//Storing the url and filename of the image as recieved from Cloudinary
+    newData.geometry = response.body.features[0].geometry; //Storing the coordinates of the location into the DB
+    let savedListing = await newData.save();
+    console.log(savedListing);
     req.flash("success","New Listing Added Successfully");
     res.redirect("/listings");
 };
