@@ -22,9 +22,24 @@ const passport = require("passport"); //For Authentication
 const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
 const userRouter = require("./routes/user.js"); //Express Router
+const MongoStore = require("connect-mongo");
+const dbUrl = process.env.ATLASDB_URL;
+
+const store = MongoStore.create({
+    mongoUrl: dbUrl,
+    crypto: {
+        secret: process.env.SECRET,
+    },
+    touchAfter: 24*3600,//After 24hrs the session data will be updated.
+});
+
+store.on("error", () => {
+    console.log("Error in Mongo Session Store",err);
+})
 
 const sessionOptions = {
-    secret:"SecretCode",
+    store,
+    secret:process.env.SECRET,
     resave:false,
     saveUninitialized:true,
     cookie:{
@@ -51,10 +66,8 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-
-
 async function main() {
-    await mongoose.connect("mongodb://127.0.0.1:27017/stayeasy");
+    await mongoose.connect(dbUrl);
 };
 
 main()
@@ -66,9 +79,9 @@ main()
 });
 
 //Root Route
-app.get("/" , async (req,res) => {
-    res.send("Hi, I'm root!")
-});
+// app.get("/" , async (req,res) => {
+//     res.send("Hi, I'm root!")
+// });
 
 
 
@@ -77,6 +90,7 @@ app.use((req,res,next) => {
     res.locals.successMsg = req.flash("success");
     res.locals.errorMsg = req.flash("error");
     res.locals.currUser = req.user;
+    res.locals.route = req.url;
     next();
 });
 
