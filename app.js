@@ -79,9 +79,9 @@ main()
 });
 
 //Root Route
-// app.get("/" , async (req,res) => {
-//     res.send("Hi, I'm root!")
-// });
+app.get("/" , async (req,res) => {
+    res.send("Hi, I'm root!")
+});
 
 
 
