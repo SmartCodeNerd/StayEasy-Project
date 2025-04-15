@@ -79,10 +79,10 @@ main()
 });
 
 //Root Route
-app.get("/" , async (req,res) => {
-    res.send("Hi, I'm root!");
-    //res.render("index.js");
-});
+// app.get("/" , async (req,res) => {
+//     res.send("Hi, I'm root!");
+//     //res.render("index.js");
+// });
 
 
 
